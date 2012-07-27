@@ -17,8 +17,12 @@ int GCD(int a, int b) {
 }
 
 int randomUnif2(int Max) {
-    boost::random::uniform_int_distribution<> uniformDist(1, Max);
-    return uniformDist(RNG);
+    int value = rand();
+    int multiple = RAND_MAX / Max;
+    if (value >= multiple * Max) {
+        value = rand();
+    }
+    return (value % Max) + 1;
 }
 
 // Find (max - min) for array

@@ -1,6 +1,7 @@
 #include "Header.h"
 
 int main() {
+    srand(1);
     int n, l, m, s;
     cin >> n >> l >> m >> s;
     Mapping map0(n, l, m, s);

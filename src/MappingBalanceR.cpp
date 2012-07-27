@@ -215,7 +215,7 @@ bool Mapping::BalanceRLocalSearchWeak(int column, int valRcsum, int d) {
     }// for j
     if (!flag)
         return 0;
-    int i = RNG() % ((int) potentialCol.size());
+    int i = randomUnif2(potentialCol.size() ) - 1;
     ExchangeEntriesOfR(potentialRow[i], potentialCol[i], column);
     return 1;
 }

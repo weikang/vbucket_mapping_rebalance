@@ -11,13 +11,14 @@ Search for optimal RI
 #define _ADD_COUNT_MAX 200000
 #define _THRESHOLD_COUNT_MAX 200000
 
-boost::mt19937 RNG(1);
-// RNG.min() = 0;  RNG.max() = 2^32-1;
-
 // Choose uniform randomly from 1,2,...,Max
 static int randomUnif(int Max) {
-    boost::random::uniform_int_distribution<> uniformDist(1, Max);
-    return uniformDist(RNG);
+    int value = rand();
+    int multiple = RAND_MAX / Max;
+    if (value >= multiple * Max) {
+        value = rand();
+    }
+    return (value % Max) + 1;
 }
 
 // Input Roriginal: R from previous mapping
@@ -47,7 +48,7 @@ void Mapping::OptimalTopology (vector<int>& Roriginal) {
             acceptanceProb = 1;
         else
             acceptanceProb = 0;
-        if (acceptanceProb || RNG() % 2) {  // accept with 1/2 prob. if equal
+        if (acceptanceProb || randomUnif(2) == 1) {  // accept with 1/2 prob. if equal
             // We accpet here
             RI.swap(RIproposed);
             currentEnergy -= EnergyDifference;

@@ -1,5 +1,6 @@
 *.gcda
 *.o
+README.md~
 .deps
 /ChangeLog
 /GPATH
@@ -24,4 +25,5 @@ depcomp
 install-sh
 missing
 rebalancer
+testGenerate
 stamp-h1

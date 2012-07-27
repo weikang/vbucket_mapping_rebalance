@@ -16,8 +16,6 @@
 #include <stack>
 #include <vector>
 #include <algorithm>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
 using namespace std;
 
 class Mapping {
@@ -39,6 +37,7 @@ class Mapping {
     void PrintTopology(ostream & fout);
     void PrintCheck(ostream & fout, bool printA = 0);  // Print Diagnostics
     void Generate();  // generate a new balanced mapping from empty
+    void InitRI();  // Initialize a block strip RI with S = tempS
     void Rebalance(Mapping& mapOriginal, vector<int>& old2new);
     int RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new);
     // Count the number of data movements
@@ -61,8 +60,6 @@ private:
 
     double AssessEnergy(vector<int>& Roriginal, vector<bool>& RIproposed);
     void MakeRIProposal(vector<bool>& RIproposed, vector<int>& Roriginal, double& EnergyDifference);
-
-    void InitRI();  // Initialize a block strip RI with S = tempS
     void DisperseR();  // Create R from M,N,S,L
     void DisperseR(vector<int>& Roriginal);
     void BalanceR();  // Make R balanced
@@ -112,8 +109,6 @@ void UpdateNodeNameList(vector<string>& nodeNameList,
                         vector<string>& newNodeNameList,
                         vector<string>& changeNodeNameList,
                         vector<int>& old2new);
-
-extern boost::mt19937 RNG;
 
 #endif
 
