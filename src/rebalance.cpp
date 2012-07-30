@@ -28,11 +28,9 @@ int main() {
         if (!IsInRow(keepNodeNameList, map0.nodeNameList[i]) )
             changeNodeNameList.push_back(map0.nodeNameList[i]);
     }
-
     vector<int> old2new;
     vector<string> newNodeNameList(map0.nodeNameList);
-    UpdateNodeNameList(map0.nodeNameList, newNodeNameList,
-                       changeNodeNameList, old2new);
+    UpdateNodeNameList(map0.nodeNameList, newNodeNameList, changeNodeNameList, old2new);
 
     Mapping map1(map0.N, map0.L, newM, map0.S);
     map1.nodeNameList.swap(newNodeNameList);

@@ -23,4 +23,4 @@ testGenerate_SOURCES = \
 EXTRA_DIST = slides
 
 run_some_tests: rebalancer
-	find testCases/ -type f -print0 | xargs -P2 -0 -n1 -- sh -c './rebalancer <$$1 | head -n2' --
+	find testCases/ -type f -print0 | xargs -P4 -0 -n1 -- sh -c './rebalancer <$$1 | head -n5' -

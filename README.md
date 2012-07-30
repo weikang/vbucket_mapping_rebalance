@@ -1,36 +1,46 @@
 vbucket_mapping_rebalance
+=========================
 
-version 2.0
+Version 2.0
 Implementation of topology-replication-mapping scheme
+-------------------------
 
+### INPUT
 
-INPUT: (through standard input std::cin)
+(through standard input std::cin)
 
-First 4 lines of parameters of the input mapping
-N // the number of vbuckets
-L // the number of copies
-M // the number of nodes
-S // the slave number
+Input is (N+4) lines of the input mapping with additional lines 
+indicating desired node names that makes up the new mapping.
 
-Then N lines of node names.
-Node name is a string not having spaces or tabs.
+* First 4 lines of parameters of the input mapping:
+    1. N // the number of vbuckets
+    2. L // the number of copies
+    3. M // the number of nodes
+    4. S // the slave number
+
+* Then N lines of node names.
+A node name is a string not having any spaces or tabs.
 Each line should have at least one, at most L, strings,
 separated by spaces/tabs.
+
 If a line has less than L strings,
-the node undefined is automatically filled in its place
+the undefined node is automatically filled in
 until every vbucket has exactly L nodes.
 
-Then, until eof, are node names.
-Each line should be a string of node name to be kept in the output mapping.
+The node name `undefined` is a reserved node name, indicating an undefined node.
+
+* At last, until the end of std::cin, are node names that are to be kept in the output mapping,
+separated by newlines.
 
 
-OUTPUT: (through standard output std::cout)
+### OUTPUT
 
-Some lines of log messages are printed.
+(through standard output std::cout)
 
-To indicate the end of log messages, a line of 20 minus signs is printed.
+* Some lines of log messages are printed first.
 
-After that line, output mapping is printed in the same manner
+* To indicate the end of log messages, a line of 20 minus signs is printed.
+
+* After that separation line, output mapping is printed in the same format
 as the input mapping: a total of (4 + N) lines.
 
-=========================
