@@ -1,6 +1,7 @@
 *.gcda
 *.o
 README.md~
+gmon.out
 .deps
 /ChangeLog
 /GPATH
