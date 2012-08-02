@@ -7,8 +7,9 @@ vbucket_mapping_rebalance
 
 (through standard input std::cin)
 
-Input is (4+N) lines of the input mapping with additional lines 
-indicating desired node names that makes up the new mapping.
+Input is (4+N) lines of the input mapping, then 2 lines of integers
+indicating the desired parameter of the mapping, and at last additional lines 
+indicating desired node names that make up the new mapping.
 
 * First 4 lines of integers, which are the four parameters of the input mapping.
     1. `N // the number of vbuckets`
@@ -22,6 +23,10 @@ indicating desired node names that makes up the new mapping.
     3. If a line has less than L strings, the undefined node is automatically filled in
 at the end of the line, until every vBucket has exactly L nodes.
     4. The node name `undefined` is the only reserved node name, indicating an undefined node.
+
+* Then 2 lines of parameters for the new mapping.
+    1. First line is the slave number `S` of the new mapping.
+    2. Second line is the number of copies `L` for the new mapping.
 
 * At last, until the end of std::cin, are node names that are to be kept in the output mapping, separated by newlines.
 

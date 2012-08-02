@@ -3,6 +3,7 @@
 README.md~
 gmon.out
 .deps
+/testCases
 /ChangeLog
 /GPATH
 /GRTAGS

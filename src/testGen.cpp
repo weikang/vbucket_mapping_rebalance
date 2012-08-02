@@ -16,9 +16,9 @@ int main(int argc, char * argv[]) {
     int addnode;
     int percentNodekept;
     for (i = 0; i <= caseSize; i++) {
-        N = 512 * randomUnif2(4);
+        N = 1024;
         L = randomUnif2(3) + 1;
-        M = randomUnif2(30) + 5;
+        M = randomUnif2(100);
         S = 10;
         Mapping map1(N, L, M, S);
         map1.GenerateNodeName();
@@ -48,15 +48,26 @@ int main(int argc, char * argv[]) {
             }
             writeMapping << endl;
         }
+
+        writeMapping << randomUnif2(3) + 1 << endl << 10 << endl;
+
+        bool hasKeptNodes(0);
         vector<string> nodeNameList(map1.nodeNameList);
-        addnode = randomUnif2(10);
+        addnode = randomUnif2(20) - 1;
         for (j = 0; j < addnode; j++) {
             writeMapping << "newnode" + Int2String(j) << endl;
+            hasKeptNodes = 1;
         }
-        percentNodekept = randomUnif2(50) + 45;
-        for (j = 1; j < (int)nodeNameList.size(); j++) {
-            if (randomUnif2(100) <= percentNodekept)
+        percentNodekept = randomUnif2(100);
+        for (j = 1; j < (int)nodeNameList.size(); ++j) {
+            if (randomUnif2(100) <= percentNodekept) {
+                hasKeptNodes = 1;
                 writeMapping << nodeNameList[j] << endl;
+            }
+        }
+        if (!hasKeptNodes) {
+            j = randomUnif2(nodeNameList.size());
+            writeMapping << nodeNameList[j] << endl;
         }
         writeMapping.close();
     }

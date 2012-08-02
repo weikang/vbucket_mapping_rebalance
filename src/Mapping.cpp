@@ -22,6 +22,13 @@ Mapping::Mapping(int n, int l, int m, int s) :
         cout << "WARNING: Slave number is too large s.t. S * M > N * (L - 1) !" << endl;
         cout << "         Slave number is overridden to be " << S << endl << endl;
     }
+    if (S == 0 && M > 1) {
+        S = M - 1;
+        if (S > 10)
+            S = 10;
+        cout << "WARNING: Slave number cannot be zero unless M == 0 !" << endl;
+        cout << "         Slave number is overridden to be " << S << endl << endl;
+    }
     if (L > S + 1) {
         L = S + 1;
         cout << "WARNING: Number of copies L cannot be larger than (S + 1) !" << endl;

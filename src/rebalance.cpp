@@ -7,6 +7,9 @@ int main() {
     Mapping map0(n, l, m, s);
     map0.InitMapping(cin);
 
+    int newS, newL;
+    cin >> newS >> newL;
+
     string nodeName;
     vector<string> keepNodeNameList;
     keepNodeNameList.reserve(100);
@@ -32,7 +35,7 @@ int main() {
     vector<string> newNodeNameList(map0.nodeNameList);
     UpdateNodeNameList(map0.nodeNameList, newNodeNameList, changeNodeNameList, old2new);
 
-    Mapping map1(map0.N, map0.L, newM, map0.S);
+    Mapping map1(map0.N, newL, newM, newS);
     map1.nodeNameList.swap(newNodeNameList);
     int LowerBound = map1.RebalanceLowerBound(map0, old2new);
     map1.Rebalance(map0, old2new);
