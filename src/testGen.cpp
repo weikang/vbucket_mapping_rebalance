@@ -3,11 +3,16 @@
 // caseSize: test cases to generate
 
 int main(int argc, char * argv[]) {
+    system("rm testCases/*");
     int caseSize(9);
     if (argc > 1)
         caseSize = String2Int(string(argv[1]));
     ofstream writeMapping;
     ifstream readMapping;
+    int seed(1);
+    if (argc > 2)
+        seed = String2Int(string(argv[2]));
+    srand(seed);
     int i, j, k;
     int N, L, M, S;
     vector<int> index;
@@ -39,17 +44,22 @@ int main(int argc, char * argv[]) {
                      << map1.L << endl
                      << map1.M << endl
                      << map1.S << endl;
+        int pertNonGarbage = randomUnif2(30) + 70;
         for (j = 0; j < map1.N; j++) {
             for (k = 0; k< map1.L; k++) {
-                if (randomUnif2(100) < 96) // 95 percent true
+                if (randomUnif2(100) < pertNonGarbage) // 95 percent true
                     writeMapping << map1.Aname[index[j] * map1.L + k] << '\t';
-                else  // 5 percent garbage
+                else  // 5 percent pertNonGarbage
                     writeMapping << map1.Aname[index2[j] * map1.L + k] << '\t';
             }
             writeMapping << endl;
         }
 
-        writeMapping << randomUnif2(3) + 1 << endl << 10 << endl;
+        writeMapping << 10 << endl;
+        if (randomUnif2(4) < 4)
+            writeMapping << map1.L << endl;
+        else
+            writeMapping << randomUnif2(3) + 1 << endl;
 
         bool hasKeptNodes(0);
         vector<string> nodeNameList(map1.nodeNameList);
