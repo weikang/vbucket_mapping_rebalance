@@ -1,6 +1,10 @@
 *.gcda
 *.o
 README.md~
+Makefile.am~
+.gitignore~
+testres
+testreslog
 gmon.out
 .deps
 /testCases

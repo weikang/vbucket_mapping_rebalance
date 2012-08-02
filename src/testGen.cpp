@@ -66,7 +66,7 @@ int main(int argc, char * argv[]) {
             }
         }
         if (!hasKeptNodes) {
-            j = randomUnif2(nodeNameList.size());
+            j = randomUnif2(nodeNameList.size() - 1);
             writeMapping << nodeNameList[j] << endl;
         }
         writeMapping.close();
