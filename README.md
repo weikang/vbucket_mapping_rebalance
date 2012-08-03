@@ -48,7 +48,8 @@ This binary is used to generate randomly test cases for rebalancer.
 
 The source code for testGenerate uses `system("rm testCases/*"); ` and thus might not be portable.
 
-To generate new test cases, call `./testGenerate int1 int2` with two positive integers as parameters. We have `int1` to be the number of test cases to generate in the directory `./testCases/`, and `int2` is the seed for the random number generator. They have default value 9 and 1, respectively.
+To generate new test cases, call `./testGenerate int1 int2 >/dev/null` with two positive integers as parameters. We have `int1` to be the number of test cases to generate in the directory `./testCases/`, and `int2` is the seed for the random number generator. They have default value 9 and 1, respectively.
 
-To test these generated cases, use `make run_some_tests`. The results will be partially appended to `./test.log`. (Average running time is 1.7 seconds.)
+To test these generated cases, use `make run_some_tests`. The results will be partially appended to `test.log`. (Average running time is 1.7 seconds.)
+
 

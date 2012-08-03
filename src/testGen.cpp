@@ -56,7 +56,7 @@ int main(int argc, char * argv[]) {
         }
 
         writeMapping << 10 << endl;
-        if (randomUnif2(4) < 4)
+        if (map1.L > 1 && randomUnif2(4) < 4)
             writeMapping << map1.L << endl;
         else
             writeMapping << randomUnif2(3) + 1 << endl;
