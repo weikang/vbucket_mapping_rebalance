@@ -162,8 +162,8 @@ void GetNegativeIndex(vector<int>& index, vector<int>& array) {
 
 // A PrintCheck wrapper
 void PrintDiag(Mapping& A, int active) {
-    A.PrintTopology(cout);
-    A.PrintCheck(cout);
+    A.PrintTopology(cerr);
+    A.PrintCheck(cerr);
 /*    if (active == 0)
         return;
     int i, j;
@@ -206,10 +206,12 @@ void UpdateNodeNameList(vector<string>& nodeNameList,
     string currentNodeName;
     for (i = 0; i < (int) changeNodeNameList.size(); i++) {
         currentNodeName = changeNodeNameList[i];
+#ifdef _PRINT_DIAGNOSTIC_INFO
         if (!currentNodeName.compare(_NULL_NODE_NAME)) {
-            cout << "WARNING : Update node with undefined node name !\n\n";
+            _PRINT_DIAGNOSTIC_STREAM << "WARNING : Update node with undefined node name !\n\n";
             continue;
         }
+#endif
         flag = 1;
         for (j = 1; j < (int) newNodeNameList.size(); j++) {
             if (!currentNodeName.compare(newNodeNameList[j]) ) {

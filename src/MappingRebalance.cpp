@@ -53,7 +53,7 @@ void Mapping::Rebalance(Mapping& mapOriginal, vector<int>& old2new) {
     A.swap(map0.A);
     mapTarget.OptimalTopology(map0.R);
     mapTarget.RfromTopology(map0.R);
-    ConformToTargetR (mapTarget);
+    ConformToTargetR(mapTarget);
     GetRRI();
     FillAname();
     empty = 0;
@@ -68,7 +68,7 @@ int Mapping::FindLowerBound() {
     int i;
     if (L == 1) {
         int sum = 0;
-        for (i = 0; i < N; i++) {
+        for (i = 0; i < N; ++i) {
             if (!A[i * L])
                 sum++;
         }
@@ -213,21 +213,34 @@ void Mapping::UpdateL(int newL, vector<int>& Rtarget) {
     return;
 }
 
-// Implement clusterType==1 here later
+// clusterType:1 (default) non-indexed version
+// clusterType: 0  indexed version
 int Mapping::MoveCount(Mapping& map0, bool clusterType) {
     int i, j;
     int move(0);
     vector<string> RowOfA;
     RowOfA.reserve(L + map0.L);
-    for (i = 0; i < N; i++) {
-        if (map0.Aname[i * map0.L].compare(Aname[i * L]) )
-            move++;
-        RowOfA.clear();
-        RowOfA.assign(map0.Aname.begin() + i * map0.L + 1,
-                      map0.Aname.begin() + i * map0.L + map0.L);
-        for (j = 1; j < L; j++) {
-            if (!IsInRow(RowOfA, Aname[i * L + j]))
+    if (clusterType) {  // indexed version
+        for (i = 0; i < N; i++) {
+            if (map0.Aname[i * map0.L].compare(Aname[i * L]) )
                 move++;
+            RowOfA.clear();
+            RowOfA.assign(map0.Aname.begin() + i * map0.L + 1,
+                          map0.Aname.begin() + i * map0.L + map0.L);
+            for (j = 1; j < L; j++) {
+                if (!IsInRow(RowOfA, Aname[i * L + j]))
+                    move++;
+            }
+        }
+    } else {  // non-indexed version
+        for (i = 0; i < N; ++i) {
+            RowOfA.clear();
+            RowOfA.assign(map0.Aname.begin() + i * map0.L,
+                          map0.Aname.begin() + i * map0.L + map0.L);
+            for (j = 0; j < L; j++) {
+                if (!IsInRow(RowOfA, Aname[i * L + j]))
+                    move++;
+            }
         }
     }
     return move;

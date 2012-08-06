@@ -62,7 +62,6 @@ void Mapping::OptimalTopology (vector<int>& Roriginal) {
             }
         }
     }
-    // cout << MinEnergy << '\t';
     RI.swap(MinTopology);
     return;
 }

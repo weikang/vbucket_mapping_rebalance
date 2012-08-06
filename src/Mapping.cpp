@@ -14,25 +14,33 @@ Mapping::Mapping(int n, int l, int m, int s) :
     // Degenerate cases: need to override input S, L
     if (S >= M) {
         S = M - 1;
-        cout << "WARNING: Slave number should be less then node number !" << endl;
-        cout << "         Slave number is overridden to be " << S << endl << endl;
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "WARNING: Slave number should be less then node number !" << endl;
+        _PRINT_DIAGNOSTIC_STREAM << "         Slave number is overridden to be " << S << endl << endl;
+#endif
     }
     if (S * M > N * (L - 1) ) {
         S = (N / M) * (L - 1);  // S too large!
-        cout << "WARNING: Slave number is too large s.t. S * M > N * (L - 1) !" << endl;
-        cout << "         Slave number is overridden to be " << S << endl << endl;
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "WARNING: Slave number is too large s.t. S * M > N * (L - 1) !" << endl;
+        _PRINT_DIAGNOSTIC_STREAM << "         Slave number is overridden to be " << S << endl << endl;
+#endif
     }
     if (S == 0 && M > 1) {
         S = M - 1;
         if (S > 10)
             S = 10;
-        cout << "WARNING: Slave number cannot be zero unless M == 0 !" << endl;
-        cout << "         Slave number is overridden to be " << S << endl << endl;
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "WARNING: Slave number cannot be zero unless M == 0 !" << endl;
+        _PRINT_DIAGNOSTIC_STREAM << "         Slave number is overridden to be " << S << endl << endl;
+#endif
     }
     if (L > S + 1) {
         L = S + 1;
-        cout << "WARNING: Number of copies L cannot be larger than (S + 1) !" << endl;
-        cout << "         L is overridden to be " << L << endl << endl;
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "WARNING: Number of copies L cannot be larger than (S + 1) !" << endl;
+        _PRINT_DIAGNOSTIC_STREAM << "         L is overridden to be " << L << endl << endl;
+#endif
         A.resize(N * L, 0);
         Aname.resize(N * L);
     }
@@ -92,8 +100,10 @@ void Mapping::InitMapping(istream& fin) {
         }
     }
     if (M != nodeNum - 1) {
-        cout << "WARNING: Input mapping has node number unequal to specified !" << endl;
-        cout << "         Node number is overridden to be " << nodeNum - 1 << endl << endl;
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "WARNING: Input mapping has node number unequal to specified !\n";
+        _PRINT_DIAGNOSTIC_STREAM << "         Node number is overridden to be " << nodeNum - 1 << "\n\n";
+#endif
         ResizeM(nodeNum - 1);
     }
     empty = 0;
@@ -179,7 +189,9 @@ void Mapping::Generate() {
         empty = 0;
         imbalance = 0;
     } else {
-        cout << "ERROR : M must be positive.\n\n";
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "ERROR : M must be positive.\n\n";
+#endif
     }
     return;
 }

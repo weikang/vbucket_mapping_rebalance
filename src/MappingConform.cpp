@@ -11,15 +11,21 @@ bool Mapping::ExamineDiagonalR() {
     for (i = 0; i <= M; i++) {
         if (R[i] != 0) {
             flag = 1;
-            cout << "ERROR : target R nonezero at row 0 column " << i << endl << endl;
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "ERROR : target R nonezero at row 0 column " << i << "\n\n";
+#endif
         }
         if (R[i * (M + 1)] != 0) {
             flag = 1;
-            cout << "ERROR : target R nonezero at row " << i << " column 0\n\n";
+#ifdef _PRINT_DIAGNOSTIC_INFO
+            _PRINT_DIAGNOSTIC_STREAM << "ERROR : target R nonezero at row " << i << " column 0\n\n";
+#endif
         }
         if (R[i * (M + 1) + i] != 0) {
             flag = 1;
-            cout << "ERROR : target R nonezero at row " << i << " column " << i << "\n\n";
+#ifdef _PRINT_DIAGNOSTIC_INFO
+            _PRINT_DIAGNOSTIC_STREAM << "ERROR : target R nonezero at row " << i << " column " << i << "\n\n";
+#endif
         }
     }
     return flag;
@@ -30,9 +36,13 @@ void Mapping::ConformToTargetR(Mapping& mapTarget) {
     if (mapTarget.ExamineDiagonalR() )
         return;
     GetRRI();
+    vector<int> active(N, 0);
+    for (int i = 0; i < N; ++i) {
+        active[i] = A[i * L];
+    }
     ConformToTargetRAdjustActive(mapTarget);
     GetRRI();
-    ConformToTargetRAdjustReplica(mapTarget);
+    ConformToTargetRAdjustReplica(mapTarget, active);
 }
 
 // Returns the "similarity score" of departing RowNumberA of A
@@ -120,7 +130,7 @@ void Mapping::ConformToTargetRAdjustActive(Mapping& mapTarget) {
 
 // Intra row adjustment
 // Change replica to make R correct within each row of R
-void Mapping::ConformToTargetRAdjustReplica(Mapping& mapTarget) {
+void Mapping::ConformToTargetRAdjustReplica(Mapping& mapTarget, vector<int> &active) {
     int i, j, k, jj, kk, jk;
     vector<int> activeList;  // Rows of A having i at active
     vector<int> Rdiff (M + 1, 0);  // Difference between current R and target
@@ -129,16 +139,42 @@ void Mapping::ConformToTargetRAdjustReplica(Mapping& mapTarget) {
     vector<int> indexRtoFill;  // Candidates to fill in
     vector<int> RowOfA (L, 0);
     int ReplicaIndex;
+    int previousActive;
     int additional(0);
+    int indexGain(0);
     for (i = 0; i <= M ; i++) {
         RowHammingDiff = 0;
+        FindARowsActive(activeList, i);
+        for (j = 0; j < (int) activeList.size(); j++) {
+            // Consider row activeList[j] of A
+            // previous active: active[activeList[j]]
+            // If there is a move for the non-indexed version, make the move first
+            previousActive = active[activeList[j]];
+            if (previousActive == i)
+                continue;
+            RowOfA.assign(A.begin() + activeList[j] * L,
+                          A.begin() + activeList[j] * L + L);
+            if(R[i * (M + 1) + previousActive] < mapTarget.R[i * (M + 1) + previousActive] &&
+               !IsInRow(RowOfA, previousActive) ) {
+                   for (k = 1; k < L; k++) { // sweep this row of A
+                       ReplicaIndex = A[activeList[j] * L + k];
+                       // We have a (i,ReplicaIndex) pair here
+                       if (R[i * (M + 1) + ReplicaIndex] > mapTarget.R[i * (M + 1) + ReplicaIndex]) {
+                           A[activeList[j] * L + k] = previousActive;  // Make change
+                           R[i * (M + 1) + ReplicaIndex]--;
+                           R[i * (M + 1) + previousActive]++;
+                           indexGain++;
+                           break;
+                       }
+                   }
+            }
+        }
         for (j = 0; j <= M; j++) {
             Rdiff[j] = R[i * (M + 1) + j] - mapTarget.R[i * (M + 1) + j];
             RowHammingDiff += abs(Rdiff[j]);
         }
         if (RowHammingDiff == 0)
             continue;
-        FindARowsActive(activeList, i);
         GetNegativeIndex(indexRtoFill, Rdiff);
         // We sweep A for possible substitutes
         // If an adjustment is allowed, we make it
@@ -214,7 +250,10 @@ void Mapping::ConformToTargetRAdjustReplica(Mapping& mapTarget) {
             }
         }
     }
-    // cout << additional << '\t'; // Additonal move
+    cerr << "indexGain : " << indexGain << endl;
+#ifdef _PRINT_DIAGNOSTIC_INFO
+    _PRINT_DIAGNOSTIC_STREAM << "(Additional moves : " << additional << ")\n"; // Additonal move
+#endif
     return;
 }
 

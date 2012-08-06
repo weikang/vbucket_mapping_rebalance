@@ -440,8 +440,11 @@ int Mapping::ExtremeSum(int row, bool highestFlag, vector<int>& rowIndex) {
 void Mapping::ExchangeEntriesOfR(int RowNum, int ColNum1, int ColNum2) {
     int diff;
     diff = R[RowNum * (M + 1) + ColNum1] - R[RowNum * (M + 1) + ColNum2];
-    if (abs(diff) > 1)
-        cout << "ERROR : Attempting to modify RI when balancing R !" << endl << endl;
+    if (abs(diff) > 1) {
+#ifdef _PRINT_DIAGNOSTIC_INFO
+        _PRINT_DIAGNOSTIC_STREAM << "ERROR : Attempting to modify RI when balancing R !\n\n";
+#endif
+    }
     R[RowNum * (M + 1) + ColNum1] -= diff;
     Rcsum[ColNum1] -= diff;
     R[RowNum * (M + 1) + ColNum2] += diff;

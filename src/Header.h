@@ -1,6 +1,15 @@
 // string for the name given to the undefined node
 #define _NULL_NODE_NAME "undefined"
 
+// Print out diagnostic information
+#ifndef _PRINT_DIAGNOSTIC_INFO
+#define _PRINT_DIAGNOSTIC_INFO
+#define _PRINT_DIAGNOSTIC_STREAM cout
+#endif
+
+// Not printing any diagonostic, used for testing
+#undef _PRINT_DIAGNOSTIC_INFO
+
 #ifndef _Header_h
 #define _Header_h
 
@@ -83,7 +92,7 @@ private:
 
     bool ExamineDiagonalR();
     void ConformToTargetR(Mapping& mapTarget);  // Adjust A to targetR
-    void ConformToTargetRAdjustReplica(Mapping& mapTarget);  // Intra row adjust
+    void ConformToTargetRAdjustReplica(Mapping& mapTarget, vector<int> &active);  // Intra row adjust
     void ConformToTargetRAdjustActive(Mapping& mapTarget);  // Inter row adjust
     void FindARowsActive(vector<int>& list, int active);  // Find rows of A having active
     int EvaluateDepart(int RowNumberA, vector<int>& vecR, int active);
