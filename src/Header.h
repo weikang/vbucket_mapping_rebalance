@@ -37,6 +37,7 @@ class Mapping {
     int imbalance;
     vector<string> nodeNameList;  // nodeNameList[node ID] = node name, size (M+1)
     vector<string> Aname;  // matrix A with node names, size N * L
+    vector<string> nodeTagList;
 
     Mapping(int n, int l, int m, int s);  // Initialize an empty Mapping
     Mapping(const Mapping& mapSource);  // Copy constructor
@@ -45,9 +46,10 @@ class Mapping {
     void PrintMapping(ostream &);  // Print Mapping format
     void PrintTopology(ostream & fout);
     void PrintCheck(ostream & fout, bool printA = 0);  // Print Diagnostics
+    int CheckTags();
     void Generate();  // generate a new balanced mapping from empty
     void InitRI();  // Initialize a block strip RI with S = tempS
-    void Rebalance(Mapping& mapOriginal, vector<int>& old2new);
+    void Rebalance(Mapping& mapOriginal, vector<int>& old2new, int TagPrice);
     int RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new);
     // Count the number of data movements
     // clusterType 1:index  0:nonindex
@@ -61,14 +63,13 @@ private:
     vector<int> Rrsum;     // Row sum of R, size (M+1)
     vector<int> Rcsum;     // Column sum of R, size (M+1)
 
-    void OptimalTopology (vector<int>& Roriginal);
+    void OptimalTopology (vector<int>& Roriginal, int TagPrice = 5);
     void GetRRI(); // Compute R,RI... from A
     void GetRI(); // Compute RI... from R
     void FillAname();  // fill Astr and serverList from A
     void CheckBalance();  // compute imbalance
 
-    double AssessEnergy(vector<int>& Roriginal, vector<bool>& RIproposed);
-    void MakeRIProposal(vector<bool>& RIproposed, vector<int>& Roriginal, double& EnergyDifference);
+    void MakeRIProposal(vector<bool>& RIproposed, vector<int>& Roriginal, double& EnergyDifference, int TagPrice);
     void DisperseR();  // Create R from M,N,S,L
     void DisperseR(vector<int>& Roriginal);
     void BalanceR();  // Make R balanced
@@ -82,7 +83,6 @@ private:
     void ExchangeEntriesOfR(int RowNum, int ColNum1, int ColNum2);  // Exchange two entries in R
     void FillA();  // fill in A from R vertically
 
-    void AddDeleteMatch(vector<int>& old2new);
     void UpdateA(vector<int>& old2new);
     void ResizeM(int newM);
     void RfromTopology(vector<int>& Roriginal);
@@ -114,10 +114,6 @@ void GetNegativeIndex(vector<int>& index, vector<int>& array);
 void PrintDiag(Mapping& A, int active);  // a wrapper for PrintCheck
 void Shuffle(vector<int>& samples);
 int randomUnif2(int Max);
-void UpdateNodeNameList(vector<string>& nodeNameList,
-                        vector<string>& newNodeNameList,
-                        vector<string>& changeNodeNameList,
-                        vector<int>& old2new);
 
 #endif
 

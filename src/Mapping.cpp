@@ -7,6 +7,7 @@ Mapping::Mapping(int n, int l, int m, int s) :
     N(n), L(l), M(m), S(s),
     empty(1), imbalance(),
     nodeNameList(M + 1), Aname(N * L),
+    nodeTagList(M + 1),
     A(N * L, 1), R((M+1) * (M+1), 0),
     RI((M+1) * (M+1), 0),
     RIrsum(M + 1, 0), Rrsum(M + 1, 0), Rcsum(M + 1, 0) {
@@ -51,7 +52,7 @@ Mapping::Mapping(const Mapping& mapSource) :
     M(mapSource.M), S(mapSource.S),
     empty(mapSource.empty), imbalance(mapSource.imbalance),
     nodeNameList(mapSource.nodeNameList),
-    Aname(mapSource.Aname),
+    Aname(mapSource.Aname), nodeTagList(mapSource.nodeTagList),
     A(mapSource.A), R(mapSource.R),
     RI(mapSource.RI), RIrsum(mapSource.RIrsum),
     Rrsum(mapSource.Rrsum), Rcsum(mapSource.Rcsum) {
@@ -280,6 +281,19 @@ void Mapping::PrintAname(ostream& out) {
     return;
 }
 
+int Mapping::CheckTags(){
+    int i, j;
+    int sameTagCount(0);
+    for (i = 1; i <= M; i++) {
+        for (j = 1; j <= M; j++) {
+            if (RI[i * (M + 1) + j] && !nodeTagList[i].compare(nodeTagList[j])) {
+                sameTagCount++;
+            }
+        }
+    }
+    return sameTagCount;
+}
+
 // printA==1 : also print matrix A
 void Mapping::PrintCheck(ostream& fout, bool printA) {
     fout << "N = " << N << "\t(Number of vBuckets)\n";
@@ -306,11 +320,10 @@ void Mapping::PrintCheck(ostream& fout, bool printA) {
         }
         fout << endl;
     }
-    /*
     fout << endl << "nodeNameList : " << endl;
     for (i = 0; i <= M; i++) {
-        fout << i << " : " << nodeNameList[i] << endl;
-    }*/
+        fout << i << " : " << nodeNameList[i] << '\t' << nodeTagList[i] << endl;
+    }
     if (printA) {  // also print matrix A
         int widthA = (int)log10((double)M) + 2;  // output width for elements in A
         fout << "\nA\n";

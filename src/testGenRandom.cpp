@@ -3,7 +3,6 @@
 // caseSize: test cases to generate
 
 int main(int argc, char * argv[]) {
-    system("rm testCases/*");
     int caseSize(9);
     if (argc > 1)
         caseSize = String2Int(string(argv[1]));

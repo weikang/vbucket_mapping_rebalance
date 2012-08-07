@@ -27,7 +27,7 @@ int Mapping::RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new) {
 
 // Rebalance for potential change of L, S, M
 // WE ASSUME N DOES NOT CHANGE
-void Mapping::Rebalance(Mapping& mapOriginal, vector<int>& old2new) {
+void Mapping::Rebalance(Mapping& mapOriginal, vector<int>& old2new, int TagPrice) {
     if (M == 1 || mapOriginal.M == 1) {
         InitRI();
         Generate();
@@ -35,8 +35,8 @@ void Mapping::Rebalance(Mapping& mapOriginal, vector<int>& old2new) {
     }
     Mapping map0(mapOriginal);
     Mapping mapTarget(N, L, M, S);
+    mapTarget.nodeTagList.assign(nodeTagList.begin(), nodeTagList.end());
     map0.ResizeM(M);
-    AddDeleteMatch(old2new);
     map0.UpdateA(old2new);
     if (map0.L < L) {
         map0.UpdateL(L, mapTarget.R);
@@ -45,13 +45,13 @@ void Mapping::Rebalance(Mapping& mapOriginal, vector<int>& old2new) {
         mapTarget.InitRI();
         mapTarget.Generate();
         mapTemp.UpdateL(L, mapTarget.R);
-        mapTarget.OptimalTopology(mapTemp.R);
+        mapTarget.OptimalTopology(mapTemp.R, TagPrice);
         mapTarget.RfromTopology();
         map0.UpdateL(L, mapTarget.R);
     }
     map0.GetRRI();
     A.swap(map0.A);
-    mapTarget.OptimalTopology(map0.R);
+    mapTarget.OptimalTopology(map0.R, TagPrice);
     mapTarget.RfromTopology(map0.R);
     ConformToTargetR(mapTarget);
     GetRRI();
@@ -115,24 +115,6 @@ void Mapping::ResizeM(int newM) {
     RIrsum.resize(M + 1, 0);
     Rrsum.resize(M + 1, 0);
     Rcsum.resize(M + 1, 0);
-}
-
-void Mapping::AddDeleteMatch(vector<int>& old2new){
-    int i = old2new.size() - 1;
-    while (old2new[i] == 0) {
-        i--;
-    }
-    int addedNodeIndex = old2new[i] + 1;
-    if (addedNodeIndex > M)
-        return;
-    for (i = 1; i <= (int)old2new.size() - 1; i++) {
-        if (old2new[i] == 0) {
-            old2new[i] = addedNodeIndex;
-            addedNodeIndex++;
-            if (addedNodeIndex > M)
-                break;
-        }
-    }
 }
 
 void Mapping::UpdateA(vector<int>& old2new) {

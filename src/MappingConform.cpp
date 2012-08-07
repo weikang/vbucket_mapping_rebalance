@@ -142,7 +142,7 @@ void Mapping::ConformToTargetRAdjustReplica(Mapping& mapTarget, vector<int> &act
     int previousActive;
     int additional(0);
     int indexGain(0);
-    for (i = 0; i <= M ; i++) {
+    for (i = 0; i <= M ; ++i) {
         RowHammingDiff = 0;
         FindARowsActive(activeList, i);
         for (j = 0; j < (int) activeList.size(); j++) {

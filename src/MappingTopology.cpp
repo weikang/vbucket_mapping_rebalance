@@ -23,7 +23,7 @@ static int randomUnif(int Max) {
 
 // Input Roriginal: R from previous mapping
 // The function finds a good new topology that is closest to the original
-void Mapping::OptimalTopology (vector<int>& Roriginal) {
+void Mapping::OptimalTopology (vector<int>& Roriginal, int TagPrice) {
     vector<bool> RIproposed ((M + 1) * (M + 1), 0);
     double currentEnergy;
     bool acceptanceProb;
@@ -31,7 +31,7 @@ void Mapping::OptimalTopology (vector<int>& Roriginal) {
     InitRI();
     if (S == M - 1)
         return;
-    currentEnergy = AssessEnergy(Roriginal, RI);
+    currentEnergy = 0;
     double MinEnergy = currentEnergy;
     double EnergyDifference;  // current minus proposed
     vector<bool> MinTopology(RI);
@@ -41,7 +41,7 @@ void Mapping::OptimalTopology (vector<int>& Roriginal) {
     while (count < countMax) {
         ++count;
         RIproposed = RI;
-        MakeRIProposal(RIproposed, Roriginal, EnergyDifference);
+        MakeRIProposal(RIproposed, Roriginal, EnergyDifference, TagPrice);
         if (EnergyDifference < 0)
             continue;
         else if (EnergyDifference > 0)
@@ -58,6 +58,7 @@ void Mapping::OptimalTopology (vector<int>& Roriginal) {
                 if (countMax - count < _THRESHOLD_COUNT_MAX) {
                     // Dynamically augment countMax
                     countMax += _ADD_COUNT_MAX;
+                    cerr << CheckTags() << '\t' << countMax << '\t' << MinEnergy << endl;
                 }
             }
         }
@@ -66,23 +67,13 @@ void Mapping::OptimalTopology (vector<int>& Roriginal) {
     return;
 }
 
-double Mapping::AssessEnergy(vector<int>& Roriginal, vector<bool>& RIproposed) {
-    int i, j;
-    double energy(0);
-    const double unitValue = double(N) / M * (L - 1) / S;
-    for (i = 1; i <= M; ++i) {
-        for (j = 1; j <= M; ++j) {
-            energy += abs(unitValue * RIproposed[i * (M + 1) + j] - Roriginal[i * (M + 1) + j]);
-        }
-    }
-    return energy;
-}
-
 // A naive accpetance/rejection sampling
 // Pick two rows and two columns for proposing a switch
+// difference: current minus proposed
 void Mapping::MakeRIProposal(vector<bool>& RIproposed,
                              vector<int>& Roriginal,
-                             double& EnergyDifference) {
+                             double& EnergyDifference,
+                             int TagPrice) {
     int row1, row2, col1, col2;
     while (1) {
         row1 = randomUnif(M);
@@ -117,8 +108,17 @@ void Mapping::MakeRIProposal(vector<bool>& RIproposed,
     EnergyDifference -= abs(unitValue * RIproposed[row1 * (M + 1) + col2] - Roriginal[row1 * (M + 1) + col2]);
     EnergyDifference -= abs(unitValue * RIproposed[row2 * (M + 1) + col1] - Roriginal[row2 * (M + 1) + col1]);
     EnergyDifference -= abs(unitValue * RIproposed[row2 * (M + 1) + col2] - Roriginal[row2 * (M + 1) + col2]);
+    double tagMatch[4];
+    tagMatch[0] = double(!nodeTagList[row1].compare(nodeTagList[col1]));
+    tagMatch[1] = double(!nodeTagList[row2].compare(nodeTagList[col2]));
+    tagMatch[2] = double(!nodeTagList[row1].compare(nodeTagList[col2]));
+    tagMatch[3] = double(!nodeTagList[row2].compare(nodeTagList[col1]));
+    if(RIproposed[row1 * (M + 1) + col1]) {
+        EnergyDifference += TagPrice * (tagMatch[2] + tagMatch[3] - tagMatch[0] - tagMatch[1]);
+    } else {
+        EnergyDifference += TagPrice * (tagMatch[0] + tagMatch[1] - tagMatch[2] - tagMatch[3]);
+    }
 }
-
 
 // from RI to a balanced R
 void Mapping::RfromTopology() {
