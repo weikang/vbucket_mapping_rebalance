@@ -2,7 +2,9 @@ vbucket_mapping_rebalance
 =========================
 
 (Version 3.0) Added node tagging feature.
+
 (Version 2.1) Added non-indexed optimization step
+
 (Version 2.0) Implementation of the topology-replication-mapping scheme
 
 ### INPUT
@@ -44,7 +46,7 @@ as the input mapping: a total of (4 + N) lines.
 
 ### rebalancer
 
-`./rebalance [price]...` where `[price]...` are positive integers indicating the _prices_ of the corresponding node tag. The higher the price, the greater deferrence is given to that tag to make sure that nodes replicate to different tags. If the number of prices entered is less than the number of tags included in the input, the default tag price is set to 10. Excessive prices are ignored. The number of prices cannot exceed 100.
+`./rebalance [price]...` where `[price]...` are positive integers indicating the _prices_ of the corresponding node tag. The higher the price, the greater deferrence is given to that tag to make sure that nodes replicate to different tags. If the number of prices entered is less than the number of tags included in the input, the default tag price is set to 10. Excessive prices are ignored.
 
 ### testGenerate
 
