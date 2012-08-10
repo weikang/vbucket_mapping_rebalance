@@ -5,9 +5,9 @@
 // Initialize an empty mapping
 Mapping::Mapping(int n, int l, int m, int s) :
     N(n), L(l), M(m), S(s),
-    empty(1), imbalance(),
+    empty(1), imbalance(-1),
     nodeNameList(M + 1), Aname(N * L),
-    nodeTagList(M + 1),
+    nodeTagList(),
     A(N * L, 1), R((M+1) * (M+1), 0),
     RI((M+1) * (M+1), 0),
     RIrsum(M + 1, 0), Rrsum(M + 1, 0), Rcsum(M + 1, 0) {
@@ -281,17 +281,19 @@ void Mapping::PrintAname(ostream& out) {
     return;
 }
 
-int Mapping::CheckTags(){
+void Mapping::CheckTags(vector<int>& sameTagCount){
     int i, j;
-    int sameTagCount(0);
-    for (i = 1; i <= M; i++) {
-        for (j = 1; j <= M; j++) {
-            if (RI[i * (M + 1) + j] && !nodeTagList[i].compare(nodeTagList[j])) {
-                sameTagCount++;
+    sameTagCount.resize(nodeTagNumber, 0);
+    int tag;
+    for (tag = 0; tag < nodeTagNumber; tag++) {
+        for (i = 1; i <= M; i++) {
+            for (j = 1; j <= M; j++) {
+                if (RI[i * (M + 1) + j] && !nodeTagList[tag * nodeTagNumber + i].compare(nodeTagList[tag * nodeTagNumber + j])) {
+                    sameTagCount[tag]++;
+                }
             }
         }
     }
-    return sameTagCount;
 }
 
 // printA==1 : also print matrix A

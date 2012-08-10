@@ -59,24 +59,42 @@ int main(int argc, char * argv[]) {
             writeMapping << map1.L << endl;
         else
             writeMapping << randomUnif2(3) + 1 << endl;
+        int tagNumber = randomUnif2(4) - 1;
+        writeMapping << tagNumber << endl;
 
         bool hasKeptNodes(0);
+        vector<string> keptNodes;
         vector<string> nodeNameList(map1.nodeNameList);
         addnode = randomUnif2(20) - 1;
         for (j = 0; j < addnode; j++) {
-            writeMapping << "newnode" + Int2String(j) << endl;
+            keptNodes.push_back("newnode" + Int2String(j));
             hasKeptNodes = 1;
         }
         percentNodekept = randomUnif2(100);
         for (j = 1; j < (int)nodeNameList.size(); ++j) {
             if (randomUnif2(100) <= percentNodekept) {
                 hasKeptNodes = 1;
-                writeMapping << nodeNameList[j] << endl;
+                keptNodes.push_back(nodeNameList[j]);
             }
         }
         if (!hasKeptNodes) {
             j = randomUnif2(nodeNameList.size() - 1);
-            writeMapping << nodeNameList[j] << endl;
+            keptNodes.push_back(nodeNameList[j]);
+        }
+
+        int nodesPerTag = randomUnif2(7) + 3; // 4 --> 10
+        int totalTags = keptNodes.size() / nodesPerTag + 1;
+        vector<string> tags;
+        for (j = 0; j < totalTags; j++) {
+            tags.push_back("TAG" + Int2String(j));
+        }
+
+        for (j = 1; j < (int)keptNodes.size(); ++j) {
+            writeMapping << keptNodes[j] << '\t';
+            for (int k = 0; k < tagNumber; ++k) {
+                writeMapping << tags[randomUnif2(totalTags) - 1] << '\t';
+            }
+            writeMapping << endl;
         }
         writeMapping.close();
     }

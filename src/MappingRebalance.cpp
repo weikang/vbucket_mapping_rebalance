@@ -5,11 +5,12 @@ Functions for preparation
 
 #include "Header.h"
 
-int Mapping::RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new) {
+int Mapping::RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new, vector<int>& TagPrice) {
     Mapping map0(mapOriginal);
     map0.ResizeM(M);
     map0.UpdateA(old2new);
     Mapping mapTarget(N, L, M, S);
+    mapTarget.nodeTagList.assign(nodeTagList.begin(), nodeTagList.end());
     if (map0.L < L) {
         map0.UpdateL(L, mapTarget.R);
     } else if (map0.L > L) {
@@ -17,7 +18,7 @@ int Mapping::RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new) {
         mapTarget.InitRI();
         mapTarget.Generate();
         mapTemp.UpdateL(L, mapTarget.R);
-        mapTarget.OptimalTopology(mapTemp.R);
+        mapTarget.OptimalTopology(mapTemp.R, TagPrice);
         mapTarget.RfromTopology();
         map0.UpdateL(L, mapTarget.R);
     }
@@ -27,7 +28,7 @@ int Mapping::RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new) {
 
 // Rebalance for potential change of L, S, M
 // WE ASSUME N DOES NOT CHANGE
-void Mapping::Rebalance(Mapping& mapOriginal, vector<int>& old2new, int TagPrice) {
+void Mapping::Rebalance(Mapping& mapOriginal, vector<int>& old2new, vector<int>& TagPrice) {
     if (M == 1 || mapOriginal.M == 1) {
         InitRI();
         Generate();

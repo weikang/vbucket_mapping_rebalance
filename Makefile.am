@@ -34,4 +34,4 @@ testGenRandom_SOURCES = \
 EXTRA_DIST = slides
 
 run_some_tests: rebalancer
-	find testCases/ -type f -print0 | xargs -P3 -0 -n1 -- sh -c './rebalancer <$$1 >> test.log' -
+	find testCases/ -type f -print0 | xargs -P3 -0 -n1 -- sh -c 'echo $$1; ./rebalancer <$$1 | head -n15 >> test.log' -

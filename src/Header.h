@@ -8,7 +8,7 @@
 #endif
 
 // Not printing any diagonostic, used for testing
-#undef _PRINT_DIAGNOSTIC_INFO
+// #undef _PRINT_DIAGNOSTIC_INFO
 
 #ifndef _Header_h
 #define _Header_h
@@ -38,6 +38,7 @@ class Mapping {
     vector<string> nodeNameList;  // nodeNameList[node ID] = node name, size (M+1)
     vector<string> Aname;  // matrix A with node names, size N * L
     vector<string> nodeTagList;
+    int nodeTagNumber;  // how many tags are involved
 
     Mapping(int n, int l, int m, int s);  // Initialize an empty Mapping
     Mapping(const Mapping& mapSource);  // Copy constructor
@@ -46,11 +47,11 @@ class Mapping {
     void PrintMapping(ostream &);  // Print Mapping format
     void PrintTopology(ostream & fout);
     void PrintCheck(ostream & fout, bool printA = 0);  // Print Diagnostics
-    int CheckTags();
+    void CheckTags(vector<int>& sameTagCount);
     void Generate();  // generate a new balanced mapping from empty
     void InitRI();  // Initialize a block strip RI with S = tempS
-    void Rebalance(Mapping& mapOriginal, vector<int>& old2new, int TagPrice);
-    int RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new);
+    void Rebalance(Mapping& mapOriginal, vector<int>& old2new, vector<int>& TagPrice);
+    int RebalanceLowerBound(Mapping& mapOriginal, vector<int>& old2new, vector<int>& TagPrice);
     // Count the number of data movements
     // clusterType 1:index  0:nonindex
     int MoveCount(Mapping& mapOriginal, bool clusterType = 1);
@@ -63,13 +64,13 @@ private:
     vector<int> Rrsum;     // Row sum of R, size (M+1)
     vector<int> Rcsum;     // Column sum of R, size (M+1)
 
-    void OptimalTopology (vector<int>& Roriginal, int TagPrice = 5);
+    void OptimalTopology (vector<int>& Roriginal, vector<int>& TagPrice);
     void GetRRI(); // Compute R,RI... from A
     void GetRI(); // Compute RI... from R
     void FillAname();  // fill Astr and serverList from A
     void CheckBalance();  // compute imbalance
 
-    void MakeRIProposal(vector<bool>& RIproposed, vector<int>& Roriginal, double& EnergyDifference, int TagPrice);
+    void MakeRIProposal(vector<bool>& RIproposed, vector<int>& Roriginal, double& EnergyDifference, vector<int>& TagPrice);
     void DisperseR();  // Create R from M,N,S,L
     void DisperseR(vector<int>& Roriginal);
     void BalanceR();  // Make R balanced

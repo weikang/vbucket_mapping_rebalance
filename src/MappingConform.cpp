@@ -250,9 +250,9 @@ void Mapping::ConformToTargetRAdjustReplica(Mapping& mapTarget, vector<int> &act
             }
         }
     }
-    cerr << "indexGain : " << indexGain << endl;
 #ifdef _PRINT_DIAGNOSTIC_INFO
-    _PRINT_DIAGNOSTIC_STREAM << "(Additional moves : " << additional << ")\n"; // Additonal move
+    _PRINT_DIAGNOSTIC_STREAM << "Non-indexed optimization gain : " << indexGain << endl;
+    _PRINT_DIAGNOSTIC_STREAM << "Additional moves at R--> A stage: " << additional << "\n"; // Additonal move
 #endif
     return;
 }
