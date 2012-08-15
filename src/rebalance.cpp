@@ -84,7 +84,7 @@ int main(int argc, char * argv[]) {
         _PRINT_DIAGNOSTIC_STREAM << "WARNING : Output mapping has imbalance of " << map1.imbalance << "\n\n";
 
     _PRINT_DIAGNOSTIC_STREAM << "\nRebalance completed.\nNode number : " << map0.M << " ---> " << map1.M
-         << "\nMove count : (index/non-index)" << map1.MoveCount(map0, 1) << '\t'
+         << "\nMove count (index/non-index) : " << map1.MoveCount(map0, 1) << " / "
          << map1.MoveCount(map0, 0) << "\tLower bound : " << LowerBound
          << "\n\nSame tags replication :\nPrice : \t";
     vector<int> sameTagCount;
