@@ -109,8 +109,7 @@ int main(int argc, char * argv[]) {
         LowerBound = map1.N * map1.L / map1.M * (map1.M - map0.M);
     } */
     cout << map0.M << '\t' << map1.M << '\t' << map1.MoveCount(map0, 1) << '\t'
-         << map1.MoveCount(map0, 0) << '\t' << LowerBound << endl
-         << "same tags count : " << map1.CheckTags() << endl;
+         << map1.MoveCount(map0, 0) << '\t' << LowerBound << endl;
     //map1.PrintCheck(cout);
 #endif
     return 0;

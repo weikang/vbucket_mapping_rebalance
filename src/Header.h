@@ -8,7 +8,7 @@
 #endif
 
 // Not printing any diagonostic, used for testing
-// #undef _PRINT_DIAGNOSTIC_INFO
+#undef _PRINT_DIAGNOSTIC_INFO
 
 #ifndef _Header_h
 #define _Header_h

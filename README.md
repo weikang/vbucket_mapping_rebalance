@@ -48,12 +48,14 @@ as the input mapping: a total of (4 + N) lines.
 
 `./rebalance [price]...` where `[price]...` are positive integers indicating the _prices_ of the corresponding node tag. The higher the price, the greater deferrence is given to that tag to make sure that nodes replicate to different tags. If the number of prices entered is less than the number of tags included in the input, the default tag price is set to 10. Excessive prices are ignored.
 
-### testGenerate
+### test cases generation
 
 This is used to generate test cases for rebalancer.
 
 To generate new test cases, call `./testGenRandom int1 int2 >/dev/null` with two positive integers as parameters. We have `int1` to be the number of test cases to generate in the directory `./testCases/`, and `int2` is the seed for the random number generator. They have default value 9 and 1, respectively.
 
-To generate 100 by 100 matrix test cases, call `./testGen L seed >/dev/null` with two positive integers as parameters. We have `L` to be the number of copies for the test cases, and `seed` is the seed for the random number generator, which has default value 1.
+(To generate 100 by 100 matrix test cases, call `./testGen L seed >/dev/null` with two positive integers as parameters. We have `L` to be the number of copies for the test cases, and `seed` is the seed for the random number generator, which has default value 1.)
 
 To test these generated cases, use `make run_some_tests`. The results will be partially appended to `test.log`. (Average running time is 1.7 seconds for v2.0)
+
+

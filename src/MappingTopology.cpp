@@ -11,10 +11,6 @@ Search for optimal RI
 #define _ADD_COUNT_MAX 200000
 #define _THRESHOLD_COUNT_MAX 200000
 
-// multiple runs and burn-in stages
-#define _TOTAL_TRIALS 1
-#define _BURN_IN 2000
-
 // Choose uniform randomly from 1,2,...,Max
 static int randomUnif(int Max) {
     int value = rand();
@@ -39,17 +35,11 @@ void Mapping::OptimalTopology (vector<int>& Roriginal, vector<int>& TagPrice) {
     double MinEnergy = currentEnergy;
     double EnergyDifference;  // current minus proposed
     vector<bool> MinTopology(RI);
-    for (int trials = 1; trials <= _TOTAL_TRIALS + TagPrice.size() * 5; trials++) {
+    for (int trials = 1; trials <= 1 + TagPrice.size() * 3; trials++) {
         int countMax = _INITIAL_COUNT_MAX * (TagPrice.size() + 1);
         int count(0);  // number of proposals made
         while (count < countMax) {
             ++count;
-            if (count < _BURN_IN) {
-                RIproposed = RI;
-                MakeRIProposal(RIproposed, Roriginal, EnergyDifference, TagPrice);
-                RI.swap(RIproposed);
-                currentEnergy -= EnergyDifference;
-            }
             RIproposed = RI;
             MakeRIProposal(RIproposed, Roriginal, EnergyDifference, TagPrice);
             if (EnergyDifference < 0)
