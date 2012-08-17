@@ -42,9 +42,9 @@ void Mapping::OptimalTopology (vector<int>& Roriginal, vector<int>& TagPrice) {
             ++count;
             RIproposed = RI;
             MakeRIProposal(RIproposed, Roriginal, EnergyDifference, TagPrice);
-            if (EnergyDifference < 0)
+            if (EnergyDifference < -0.01)
                 continue;
-            else if (EnergyDifference > 0)
+            else if (EnergyDifference > 0.01)
                 acceptanceProb = 1;
             else
                 acceptanceProb = 0;
@@ -52,7 +52,7 @@ void Mapping::OptimalTopology (vector<int>& Roriginal, vector<int>& TagPrice) {
                 // We accpet here
                 RI.swap(RIproposed);
                 currentEnergy -= EnergyDifference;
-                if (currentEnergy < MinEnergy) {
+                if (currentEnergy < MinEnergy - 0.05) {
                     MinEnergy = currentEnergy;
                     MinTopology = RI;
                     if (countMax - count < _THRESHOLD_COUNT_MAX) {

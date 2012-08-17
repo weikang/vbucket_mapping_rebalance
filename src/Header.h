@@ -4,7 +4,7 @@
 // Print out diagnostic information
 #ifndef _PRINT_DIAGNOSTIC_INFO
 #define _PRINT_DIAGNOSTIC_INFO
-#define _PRINT_DIAGNOSTIC_STREAM cout
+#define _PRINT_DIAGNOSTIC_STREAM cerr
 #endif
 
 // Not printing any diagonostic, used for testing only

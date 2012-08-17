@@ -101,7 +101,7 @@ int main(int argc, char * argv[]) {
     for (i = 0; i < 20; i++)
         _PRINT_DIAGNOSTIC_STREAM << '-';
     _PRINT_DIAGNOSTIC_STREAM << endl;
-    map1.PrintAname(_PRINT_DIAGNOSTIC_STREAM);
+    map1.PrintAname(cout);
 #else
 /*    if (map0.M > map1.M) {
         LowerBound = map1.N * map1.L / map0.M * (map0.M - map1.M);
