@@ -7,8 +7,9 @@
 #define _PRINT_DIAGNOSTIC_STREAM cout
 #endif
 
-// Not printing any diagonostic, used for testing
-#undef _PRINT_DIAGNOSTIC_INFO
+// Not printing any diagonostic, used for testing only
+// #undef _PRINT_DIAGNOSTIC_INFO
+// Normally the above line should be commented
 
 #ifndef _Header_h
 #define _Header_h

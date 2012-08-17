@@ -23,10 +23,10 @@ int main(int argc, char * argv[]) {
     int addnode;
     int percentNodekept;
     for (i = 0; i <= caseSize; i++) {
-        tagNumber = 0; //randomUnif2(4) - 1;  // <--------- modify here
+        tagNumber = randomUnif2(4) - 1;  // <--------- modify here
         N = 1024;
-        L = 4; //randomUnif2(3) + 1;
-        M = randomUnif2(20) + 15;  // <--------- modify here
+        L = randomUnif2(3) + 1;   // <--------- modify here
+        M = randomUnif2(100);  // <--------- modify here
         S = 10;
         Mapping map1(N, L, M, S);
         map1.GenerateNodeName();
@@ -47,7 +47,7 @@ int main(int argc, char * argv[]) {
                      << map1.L << endl
                      << map1.M << endl
                      << map1.S << endl;
-        pertNonGarbage = randomUnif2(5) + 95;  // <--------- modify here
+        pertNonGarbage = randomUnif2(10) + 90;  // <--------- modify here
         for (j = 0; j < map1.N; j++) {
             for (k = 0; k< map1.L; k++) {
                 if (randomUnif2(100) < pertNonGarbage) // 95 percent true
@@ -68,12 +68,12 @@ int main(int argc, char * argv[]) {
         bool hasKeptNodes(0);
         vector<string> keptNodes;
         vector<string> nodeNameList(map1.nodeNameList);
-        addnode = 0;  // randomUnif2(10) - 1;  // <----------modeify here
+        addnode = randomUnif2(20) - 1;  // <----------modeify here
         for (j = 0; j < addnode; j++) {
             keptNodes.push_back("newnode" + Int2String(j));
             hasKeptNodes = 1;
         }
-        percentNodekept = randomUnif2(5) + 95; // <----------modeify here
+        percentNodekept = randomUnif2(10) + 90;  // <----------modeify here
         for (j = 1; j < (int)nodeNameList.size(); ++j) {
             if (randomUnif2(100) <= percentNodekept) {
                 hasKeptNodes = 1;
@@ -85,7 +85,7 @@ int main(int argc, char * argv[]) {
             keptNodes.push_back(nodeNameList[j]);
         }
 
-        int nodesPerTag = randomUnif2(5) + 5;
+        int nodesPerTag = randomUnif2(5) + 5;  // <----------modeify here
         int totalTags = keptNodes.size() / nodesPerTag + 1;
         vector<string> tags;
         for (j = 0; j < totalTags; j++) {
