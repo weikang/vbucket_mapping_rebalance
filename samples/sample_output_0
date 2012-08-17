@@ -1,0 +1,22 @@
+Non-indexed optimization gain : 1
+Additional moves at R--> A stage: 0
+
+Rebalance completed.
+Node number : 3 ---> 4
+Move count (index/non-index) : 8 / 7	Lower bound : 4
+
+Same tags replication :
+Price : 	
+Count : 	
+--------------------
+6
+3
+4
+2
+a	b	c	
+a	c	b	
+b	c	d	
+d	a	b	
+c	a	d	
+c	a	d	
+

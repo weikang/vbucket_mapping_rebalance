@@ -13,7 +13,7 @@ vbucket_mapping_rebalance
 
 Input is (4+N) lines of the input mapping, then 3 lines of integers
 indicating the desired parameter of the mapping, and at last additional lines 
-indicating desired node names and their tags that make up the new mapping.
+indicating desired node names and their tags that make up the new mapping. Please see `samples/` for 2 examples.
 
 * First 4 lines of integers, which are the four parameters of the input mapping.
     1. `N // the number of vbuckets`
@@ -36,6 +36,8 @@ indicating desired node names and their tags that make up the new mapping.
 ### OUTPUT
 
 (through standard output stdout)
+
+Please see `samples/` for 2 examples.
 
 * Some lines of log messages are printed first.
 
