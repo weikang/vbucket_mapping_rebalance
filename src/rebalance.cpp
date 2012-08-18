@@ -101,6 +101,8 @@ int main(int argc, char * argv[]) {
     for (i = 0; i < 20; i++)
         _PRINT_DIAGNOSTIC_STREAM << '-';
     _PRINT_DIAGNOSTIC_STREAM << endl;
+    // map0.PrintCheck(cout);
+    // map1.PrintCheck(cout);
     map1.PrintAname(cout);
 #else
 /*    if (map0.M > map1.M) {

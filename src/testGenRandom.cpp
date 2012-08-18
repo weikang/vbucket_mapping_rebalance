@@ -50,7 +50,7 @@ int main(int argc, char * argv[]) {
         pertNonGarbage = randomUnif2(10) + 90;  // <--------- modify here
         for (j = 0; j < map1.N; j++) {
             for (k = 0; k< map1.L; k++) {
-                if (randomUnif2(100) < pertNonGarbage) // 95 percent true
+                if (randomUnif2(100) < pertNonGarbage)
                     writeMapping << map1.Aname[index[j] * map1.L + k] << '\t';
                 else  // 5 percent pertNonGarbage
                     writeMapping << map1.Aname[index2[j] * map1.L + k] << '\t';

@@ -4,7 +4,9 @@
 // Print out diagnostic information
 #ifndef _PRINT_DIAGNOSTIC_INFO
 #define _PRINT_DIAGNOSTIC_INFO
-#define _PRINT_DIAGNOSTIC_STREAM cerr
+// If one does not want output to have log messages, only the output mapping,
+// Then should make _PRINT_DIAGNOSTIC_STREAM to be cerr
+#define _PRINT_DIAGNOSTIC_STREAM cout
 #endif
 
 // Not printing any diagonostic, used for testing only

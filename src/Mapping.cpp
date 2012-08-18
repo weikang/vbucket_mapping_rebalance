@@ -7,7 +7,7 @@ Mapping::Mapping(int n, int l, int m, int s) :
     N(n), L(l), M(m), S(s),
     empty(1), imbalance(-1),
     nodeNameList(M + 1), Aname(N * L),
-    nodeTagList(),
+    nodeTagList(), nodeTagNumber(0),
     A(N * L, 1), R((M+1) * (M+1), 0),
     RI((M+1) * (M+1), 0),
     RIrsum(M + 1, 0), Rrsum(M + 1, 0), Rcsum(M + 1, 0) {
@@ -53,6 +53,7 @@ Mapping::Mapping(const Mapping& mapSource) :
     empty(mapSource.empty), imbalance(mapSource.imbalance),
     nodeNameList(mapSource.nodeNameList),
     Aname(mapSource.Aname), nodeTagList(mapSource.nodeTagList),
+    nodeTagNumber(mapSource.nodeTagNumber),
     A(mapSource.A), R(mapSource.R),
     RI(mapSource.RI), RIrsum(mapSource.RIrsum),
     Rrsum(mapSource.Rrsum), Rcsum(mapSource.Rcsum) {
@@ -285,7 +286,7 @@ void Mapping::CheckTags(vector<int>& sameTagCount){
     int i, j;
     sameTagCount.resize(nodeTagNumber, 0);
     int tag;
-    for (tag = 0; tag < nodeTagNumber; tag++) {
+    for (tag = 0; tag < nodeTagNumber; ++tag) {
         for (i = 1; i <= M; i++) {
             for (j = 1; j <= M; j++) {
                 if (RI[i * (M + 1) + j] && !nodeTagList[tag * nodeTagNumber + i].compare(nodeTagList[tag * nodeTagNumber + j])) {
@@ -323,8 +324,12 @@ void Mapping::PrintCheck(ostream& fout, bool printA) {
         fout << endl;
     }
     fout << endl << "nodeNameList : " << endl;
-    for (i = 0; i <= M; i++) {
-        fout << i << " : " << nodeNameList[i] << '\t' << nodeTagList[i] << endl;
+    for (i = 0; i <= M; ++i) {
+        fout << i << " : " << nodeNameList[i];
+        for (j = 0; j < nodeTagNumber; ++j) {
+            fout << '\t' << nodeTagList[j * nodeTagNumber + i];
+        }
+        fout << endl;
     }
     if (printA) {  // also print matrix A
         int widthA = (int)log10((double)M) + 2;  // output width for elements in A
